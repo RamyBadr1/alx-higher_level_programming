@@ -2,10 +2,10 @@ def magic_calculation(a, b):
     from magic_calculation_102 import add, sub
 
     if a < b:
-        c = add(a, b)
-        for i in range(4, 6):
-            c = add(c, i)
-        return (c)
+        result = add(a, b)
+        for index in range(4, 6):
+            result = add(c, index)
+        return (result)
 
     else:
         return(sub(a, b))
