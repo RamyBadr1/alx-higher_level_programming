@@ -1,4 +1,5 @@
 #include "lists.h"
+#include <stddef.h>
 
 int check_palindrome(listint_t **head, listint_t *last);
 
@@ -20,12 +21,12 @@ int is_palindrome(listint_t **head)
  * @last: pointer to list end
  * Return: 0 not palindrom || 1 palindrome
  */
-int check_pal(listint_t **head, listint_t *last)
+int check_palindrome(listint_t **head, listint_t *last)
 {
 	if (!last)
 		return (1);
 
-	if (check_palindrome(head, last->next) != NULL && (*head)->n == last->n)
+	if (check_palindrome(head, last->next) && (*head)->n == last->n)
 	{
 		*head = (*head)->next;
 		return (1);
