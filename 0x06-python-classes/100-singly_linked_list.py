@@ -1,56 +1,63 @@
 #!/usr/bin/python3
 class Node:
+    """Contructor to initiate the element"""
     def __init__(self, data, next_node=None):
         self.data = data
         self.next_node = next_node
 
     @property
     def data(self):
+        '''get of data'''
         return self.__data
 
     @data.setter
     def data(self, value):
+        '''set of data'''
         if not isinstance(value, int):
             raise TypeError('data must be an integer')
-        self.__data = value
+        else:
+            self.__data = value
 
     @property
     def next_node(self):
+        ''' get of next_node'''
         return self.__next_node
 
     @next_node.setter
     def next_node(self, value):
-        if value is not None and type(value) != Node:
+        '''Sett'''
+        if value is not None and not isinstance(value, Node):
             raise TypeError('next_node must be a Node object')
-        self.__next_node = value
+        else:
+            self.__next_node = value
 
 
 class SinglyLinkedList:
+    '''Class of the single linked list'''
     def __init__(self):
-        self.head = None
-
-    def __str__(self):
-        ret = ""
-        node = self.head
-        while node:
-            ret += str(node.data) + "\n"
-            node = node.next_node
-        return ret[:-1]
+        """constructor to initiate this object"""
+        self.__head = None
 
     def sorted_insert(self, value):
-        new = Node(value)
-        if not self.head:
-            self.head = new
-            return
+        '''Funtion to hadle the single linked list '''
+        if self.__head is not None:
+            node_data = Node(value)
+            node_data.data = value
+            node_data.next_node = self.__head
+            self.__head = node_data
+        else:
+            node_data = Node(value, None)
+            node_data.data = value
+            node_data.next_node = self.__head
+            self.__head = node_data
 
-        if value < self.head.data:
-            new.next_node = self.head
-            self.head = new
-            return
+    def __str__(self):
+        re = self.__head
+        show_list = []
 
-        node = self.head
-        while node.next_node and node.next_node.data < value:
-            node = node.next_node
-        if node.next_node:
-            new.next_node = node.next_node
-        node.next_node = new
+        while re is not None:
+            show_list.append(str(re.data))
+            re = re.next_node
+        show_list.sort(key=int)
+        return ('\n'.join(show_list))
+
