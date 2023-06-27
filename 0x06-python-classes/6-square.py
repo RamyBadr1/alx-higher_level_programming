@@ -1,82 +1,98 @@
 #!/usr/bin/python3
 class Square:
-    """
-    Class to find an square area
-    """
+    """Simple square class with his size as a field"""
+
     def __init__(self, size=0, position=(0, 0)):
-        """
-        This is the constructor
-        """
+        """ Instance the class Square
+            Arguments:
+                @size: the size of every side of the Square,
+                        it must be a positive integer value"""
         if not isinstance(size, int):
-            raise TypeError('size must be an integer')
+            raise TypeError("size must be an integer")
         elif size < 0:
-            raise ValueError('size must be >= 0')
-        self.__size = size
-        if type(position) is not tuple or len(position) != 2:
-            raise TypeError(
-                'position must be a tuple of 2 positive integers')
-        for x in position:
-            if not isinstance(x, int) or x < 0:
-                raise TypeError(
-                    'position must be a tuple of 2 positive integers')
+            raise ValueError("size must be >= 0")
+        elif not self.__is_a_valid_position(position):
+            raise TypeError("position must be a tuple of 2 positive integers")
+        else:
+            self.__size = size
             self.__position = position
 
     @property
     def size(self):
-        """
-        Action to obtain the atribute value
-        """
-        return(self.__size)
+        """ Getter for the field size as a property
+            Return:
+                    Value of size"""
+        return self.__size
 
     @size.setter
     def size(self, value):
-        """
-        Put the value and handle the errors
-        """
+        """ Setter for the field size as a property.
+            Arguments:
+                @value: the value of size
+                        that must be a positive integer value."""
         if not isinstance(value, int):
-            raise TypeError('size must be an integer')
+            raise TypeError("size must be an integer")
         elif value < 0:
-            raise ValueError('size must be >= 0')
+            raise ValueError("size must be >= 0")
         else:
             self.__size = value
 
     @property
     def position(self):
-        """
-        Obtain the atribute position value
-        """
-        return(self.__position)
+        """ Getter for the field position as a property
+            Return:
+                    Value of position"""
+        return self.__position
 
     @position.setter
     def position(self, value):
-        """
-        Put the value and handle the errors
-        """
-        if type(value) is not tuple or len(value) != 2:
-            raise TypeError(
-                'position must be a tuple of 2 positive integers')
-        for x in value:
-            if not isinstance(x, int) or x < 0:
-                raise TypeError(
-                    'position must be a tuple of 2 positive integers')
+        """ Setter for the field position as a property.
+            Arguments:
+                @value: the value of position
+                        that must be a tuple of two positive integer values."""
+        if self.__is_a_valid_position(value):
             self.__position = value
+        else:
+            raise TypeError("position must be a tuple of 2 positive integers")
 
     def area(self):
-        """
-        Function to find a square area
-        """
-        return self.__size**2
+        """ Compute the area of a square
+            with the formula:
+                                area = @size ^ 2 = @size * @size
+            Return:
+                    Power of the Square size to 2 or
+                    size multiplicated by size."""
+        return self.__size ** 2
 
     def my_print(self):
-        """
-        Function to print an square
-        """
-        if self.__size == 0:
-            print("")
+        """ Prints a square using the character # in the standard output
+            or a blank line if @size is 0
+            and adjust it with spaces in the X and Y axis
+            based on the @position values"""
+        if not self.size:
+            print()
         else:
-            for x in range(self.__position[1]):
-                print("")
-            for y in range(self.__size):
-                print(' ' * self.position[0], end='')
-                print('#' * self.__size, end='')
-                print("")
+            for spaces_Y in range(self.position[1]):
+                print()
+            for row in range(self.size):
+                for spaces_X in range(self.position[0]):
+                    print(" ", end="")
+                for row in range(self.size):
+                    print("#", end="")
+                print()
+
+    def __is_a_valid_position(self, positions):
+        """ Check if a value can be a position by checking
+            if @positions is a tuple of exactly two positive integers
+            Return:
+                    True if @positions is a valid position field
+                    False otherwise"""
+        if type(positions) is tuple\
+                and len(positions) == 2\
+                and type(positions[0]) is int\
+                and type(positions[1]) is int\
+                and positions[0] >= 0\
+                and positions[1] >= 0:
+            return True
+        else:
+            return False
