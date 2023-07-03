@@ -10,6 +10,21 @@ class Rectangle:
         self.width = width
         self.height = height
 
+    def __str__(self):
+        """prints the rectangle"""
+        if self.__height == 0 or self.__width == 0:
+            return ""
+        size = "#" * self.__width
+        rect = []
+        for index in range(self.__height):
+            rect.append(size)
+        return "\n".join(rect)
+
+    def __repr__(self):
+        """returns representation of the Rectangle"""
+        return "{}({}, {})".format((type(self).__name__), self.__width,
+                                   self.__height)
+
     @property
     def width(self):
         """Rectangle width getter"""
@@ -37,3 +52,14 @@ class Rectangle:
         if value < 0:
             raise ValueError("height must be >= 0")
         self.__height = value
+
+    def area(self):
+        """Rectangle area getter"""
+        return self.__height * self.__width
+
+    def perimeter(self):
+        """returns the perimeter of the Rectangle,
+        or nothing if height/width are 0"""
+        if self.__height == 0 or self.__width == 0:
+            return
+        return (self.__height * 2) + (self.__width * 2)

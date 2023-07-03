@@ -7,6 +7,7 @@ class Rectangle:
 
     def __init__(self, width=0, height=0):
         '''Constructor.
+
         Args:
             width: The width of rectangle.
             height: The height of rectangle.
@@ -17,6 +18,7 @@ class Rectangle:
     @property
     def width(self):
         '''Property for the width of the rectangle.
+
         Raises:
             TypeError: If width is not an integer.
             ValueError: If width is less than 0.
@@ -34,6 +36,7 @@ class Rectangle:
     @property
     def height(self):
         '''Property for the height of the rectangle.
+
         Raises:
             TypeError: If height is not an integer.
             ValueError: If height is less than 0.
@@ -63,3 +66,11 @@ class Rectangle:
         if not self.width or not self.height:
             return ""
         return (("#" * self.width + "\n") * self.height)[:-1]
+
+    def __repr__(self):
+        '''Returns formal string representation...'''
+        return "Rectangle(" + str(self.width) + ", " + str(self.height) + ")"
+
+    def __del__(self):
+        '''Called at instance deletion.'''
+        print("Bye rectangle...")
