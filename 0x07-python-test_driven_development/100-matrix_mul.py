@@ -1,99 +1,71 @@
 #!/usr/bin/python3
+"""Unittest for max_integer([..])
+"""
+import unittest
+max_integer = __import__('6-max_integer').max_integer
 
 
-def matrix_mul(m_a, m_b):
-    """
-    produces a result of matrix multiplaction of two matricies
-    checks for bad input to function
-    """
-    if not isinstance(m_a, list):
-        raise TypeError("m_a must be a list")
-    if not isinstance(m_b, list):
-        raise TypeError("m_b must be a list")
+class TestMaxInteger(unittest.TestCase):
+    """unittest class for max_integer"""
+    def test_module_docstring(self):
+        """Tests for module docsting"""
+        m = __import__('6-max_integer').__doc__
+        self.assertTrue(len(m) > 1)
 
-    if not check_list_of_lists(m_a):
-        raise TypeError("m_a must be a list of lists")
-    if not check_list_of_lists(m_b):
-        raise TypeError("m_b must be a list of lists")
+    def test_function_docstring(self):
+        """Tests for funstion docstring"""
+        f = max_integer.__doc__
+        self.assertTrue(len(f) > 1)
 
-    if not check_empty_list(m_a):
-        raise ValueError("m_a can't be empty")
-    if not check_empty_list(m_b):
-        raise ValueError("m_b can't be empty")
+    def test_empty_list(self):
+        """Tests for empty list []"""
+        e = []
+        self.assertIsNone(max_integer(e))
 
-    if not check_ele_types(m_a):
-        raise TypeError("m_a should contain only integers or floats")
-    if not check_ele_types(m_b):
-        raise TypeError("m_b should contain only integers or floats")
+    def test_no_args(self):
+        """Tests for no arguments passed to func"""
+        self.assertIsNone(max_integer())
 
-    if not check_rectangle(m_a):
-        raise TypeError("each row of m_a must should be of the same size")
-    if not check_rectangle(m_b):
-        raise TypeError("each row of m_a must should be of the same size")
+    def test_one_element(self):
+        """Tests for only one number in the list"""
+        o = [1]
+        self.assertEqual(max_integer(o), 1)
 
-    if not check_matrix_mult(m_a, m_b):
-        raise ValueError("m_a and m_b can't be multiplied")
+    def test_positive_end(self):
+        """Tests for all positive with max at end"""
+        e = [2, 10, 8, 36, 14, 50]
+        self.assertEqual(max_integer(e), 50)
 
-    if len(m_a) > len(m_b[0]):
-        res_len = len(m_a)
-    elif len(m_a) < len(m_b[0]):
-        res_len = len(m_b[0])
-    else:
-        res_len = len(m_a)
+    def test_positive_middle(self):
+        """Tests for all positive with max in middle"""
+        m = [2, 10, 8, 360, 14, 50]
+        self.assertEqual(max_integer(m), 360)
 
-    new_matrix = []
-    for row_i in range(0, len(m_a)):
-        values = []
-        for col_i in range(0, len(m_b[0])):
-            res = 0
-            for j in range(0, len(m_a[row_i])):
-                res += m_a[row_i][j] * m_b[j][col_i]
-            values.append(res)
-        new_matrix.append(values)
-    return new_matrix
+    def test_positive_beginning(self):
+        """Tests for all positive with max at beginning"""
+        b = [200, 10, 8, 36, 14, 50]
+        self.assertEqual(max_integer(b), 200)
 
+    def test_one_negative(self):
+        """Tests for list with one negative number"""
+        on = [200, 10, 8, -36, 14, 50]
+        self.assertEqual(max_integer(on), 200)
 
-def check_matrix_mult(m_a, m_b):
-    """checks that two matricies can infact be multiplied
-       length of row of m_a is equal to columns (num rows) in m_b
-       all other matricies checks assumed to have been done
-    """
-    return (len(m_a) == len(m_b[0]) or len(m_b) == len(m_a[0]))
+    def test_all_negative(self):
+        """Tests for list with all negative numbers"""
+        n = [-6, -50, -75, -1, -100]
+        self.assertEqual(max_integer(n), -1)
 
+    def test_none(self):
+        """Tests for passing none as argument"""
+        with self.assertRaises(TypeError):
+            max_integer(None)
 
-def check_list_of_lists(matrix):
-    """checks if a list is a list of lists (aka a matrix)
-    """
-    for row in matrix:
-        if not isinstance(row, list):
-            return False
-    return True
+    def test_non_int_arg(self):
+        """Tests for a non-int type in list"""
+        string = [1, 2, "Hello", 4, 5]
+        with self.assertRaises(TypeError):
+            max_integer(string)
 
-
-def check_ele_types(matrix):
-    """checks if a matrix (list of lists) contains non ints/floats
-    """
-    for row in matrix:
-        for ele in row:
-            if not isinstance(ele, (int, float)):
-                return False
-    return True
-
-
-def check_empty_list(m):
-    """checks if the matrix is empty of sub matrix is empty
-    """
-    if ((m is None or len(m) == 0) or (m[0] is None or len(m[0]) == 0)):
-        return False
-    return True
-
-
-def check_rectangle(matrix):
-    """checks if a matrix is a rectangle
-    """
-    prevRowSize = -1
-    for row in matrix:
-        if prevRowSize != -1 and prevRowSize != len(row):
-            return False
-        prevRowSize = len(row)
-    return True
+if __name__ == "__main__":
+    unittest.main()
