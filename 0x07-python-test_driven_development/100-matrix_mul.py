@@ -1,71 +1,55 @@
 #!/usr/bin/python3
-"""Unittest for max_integer([..])
 """
-import unittest
-max_integer = __import__('6-max_integer').max_integer
+Contains the matrix_mul function
+"""
 
 
-class TestMaxInteger(unittest.TestCase):
-    """unittest class for max_integer"""
-    def test_module_docstring(self):
-        """Tests for module docsting"""
-        m = __import__('6-max_integer').__doc__
-        self.assertTrue(len(m) > 1)
-
-    def test_function_docstring(self):
-        """Tests for funstion docstring"""
-        f = max_integer.__doc__
-        self.assertTrue(len(f) > 1)
-
-    def test_empty_list(self):
-        """Tests for empty list []"""
-        e = []
-        self.assertIsNone(max_integer(e))
-
-    def test_no_args(self):
-        """Tests for no arguments passed to func"""
-        self.assertIsNone(max_integer())
-
-    def test_one_element(self):
-        """Tests for only one number in the list"""
-        o = [1]
-        self.assertEqual(max_integer(o), 1)
-
-    def test_positive_end(self):
-        """Tests for all positive with max at end"""
-        e = [2, 10, 8, 36, 14, 50]
-        self.assertEqual(max_integer(e), 50)
-
-    def test_positive_middle(self):
-        """Tests for all positive with max in middle"""
-        m = [2, 10, 8, 360, 14, 50]
-        self.assertEqual(max_integer(m), 360)
-
-    def test_positive_beginning(self):
-        """Tests for all positive with max at beginning"""
-        b = [200, 10, 8, 36, 14, 50]
-        self.assertEqual(max_integer(b), 200)
-
-    def test_one_negative(self):
-        """Tests for list with one negative number"""
-        on = [200, 10, 8, -36, 14, 50]
-        self.assertEqual(max_integer(on), 200)
-
-    def test_all_negative(self):
-        """Tests for list with all negative numbers"""
-        n = [-6, -50, -75, -1, -100]
-        self.assertEqual(max_integer(n), -1)
-
-    def test_none(self):
-        """Tests for passing none as argument"""
-        with self.assertRaises(TypeError):
-            max_integer(None)
-
-    def test_non_int_arg(self):
-        """Tests for a non-int type in list"""
-        string = [1, 2, "Hello", 4, 5]
-        with self.assertRaises(TypeError):
-            max_integer(string)
-
-if __name__ == "__main__":
-    unittest.main()
+def matrix_mul(m_a, m_b):
+    """Multiply two matrices(lists of lists of integers/floats)"""
+    if type(m_a) is not list:
+        raise TypeError("m_a must be a list")
+    l1 = len(m_a)
+    if l1 == 0:
+        raise ValueError("m_a can't be empty")
+    l2 = None
+    for i in m_a:
+        if type(i) is not list:
+            raise TypeError("m_a must be a list of lists")
+        if l2 is None:
+            l2 = len(i)
+            if l2 == 0:
+                raise ValueError("m_a can't be empty")
+        if l2 != len(i):
+            raise TypeError("each row of m_a must should be of the same size")
+        for j in i:
+            if type(j) is not int and type(j) is not float:
+                raise TypeError("m_a should contain only integers or floats")
+    if type(m_b) is not list:
+        raise TypeError("m_b must be a list")
+    if len(m_b) == 0:
+        raise ValueError("m_b can't be empty")
+    l3 = None
+    for i in m_b:
+        if type(i) is not list:
+            raise TypeError("m_b must be a list of lists")
+        if l3 is None:
+            l3 = len(i)
+            if l3 == 0:
+                raise ValueError("m_b can't be empty")
+        if l3 != len(i):
+            raise TypeError("each row of m_b must should be of the same size")
+        for j in i:
+            if type(j) is not int and type(j) is not float:
+                raise TypeError("m_b should contain only integers or floats")
+    if l2 != len(m_b):
+        raise ValueError("m_a and m_b can't be multiplied")
+    matrix = []
+    for i in range(l1):
+        l = []
+        for j in range(l3):
+            n = 0
+            for k in range(l2):
+                n += m_a[i][k] * m_b[k][j]
+            l.append(n)
+        matrix.append(l)
+    return matrix
