@@ -1,12 +1,14 @@
 #!/usr/bin/python3
-'''Module for MyInt class.'''
+"""initializate"""
 
 
 class MyInt(int):
-    def __eq__(self, other):
-        '''Override equals, inverting it.'''
-        return int(self) != int(other)
+    """class MyInt"""
 
-    def __ne__(self, other):
-        '''Override not-equals, inverting it.'''
-        return int(self) == int(other)
+    def __ne__(self, next):
+        """negation to equal"""
+        return super().__eq__(next)
+
+    def __eq__(self, next):
+        """equal to negation"""
+        return super().__ne__(next)
