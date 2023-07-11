@@ -1,12 +1,11 @@
 #!/usr/bin/python3
+"""
+This file contains function that appends
+a string at the end of a text file and
+returns number of characters added
+"""
 
 
-def read_lines(filename="", nb_lines=0):
-    """reads n lines from file and prints to stdout
-    """
-    printed = 0
-    with open(filename, encoding='utf-8') as myFile:
-        for line in myFile:
-            if printed < nb_lines or nb_lines <= 0:
-                print(line, end='')
-                printed += 1
+def append_write(filename="", text=""):
+    with open(filename, mode="a", encoding="utf-8") as myFile:
+        return (myFile.write(str(text)))
