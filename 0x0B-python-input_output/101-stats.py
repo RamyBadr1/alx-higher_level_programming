@@ -1,30 +1,39 @@
 #!/usr/bin/python3
+"""This documents gather stats from stdin"""
 import sys
-import io
 
-#input = io.TextIOWrapper(sys.stdin.buffer, encoding='utf-8')
-#with open(input, "r", encoding="utf-8") as file:
- #   for line in file:
-  #      print(line)
 
-#input = io.TextIOWrapper(sys.stdin , encoding='utf-8')
+def print_pretty(size, code_dict):
+    """parse important data"""
+    print("File size: {}".format(size))
+    for key, value in sorted(code_dict.items()):
+        if (value != 0):
+            print("{}: {}".format(key, value))
 
-dictstatus = {}
-totalsize = 0
-totalcount = 0
-for line in sys.stdin:
-    split = line.split()
-    status = split[-2]
-    totalsize += int(split[-1])
-    if status in dictstatus.keys():
-        dictstatus[status] += 1
-    else:
-        dictstatus[status] = 1
-    totalcount += 1
-    if totalcount == 10:
-        sortme = sorted(dictstatus.keys())
-        print("File size:", totalsize)
-        for keys in sortme:
-            print("{}: {}".format(keys, dictstatus[keys]))
-        totalcount = 0
-        continue
+if __name__ == '__main__':
+    """init code to print the parsed data"""
+    size = 0
+    code_dict = {
+        "200": 0,
+        "301": 0,
+        "400": 0,
+        "401": 0,
+        "403": 0,
+        "404": 0,
+        "405": 0,
+        "500": 0
+    }
+    try:
+        line_counter = 0
+        for line in sys.stdin:
+            line_counter += 1
+            code = line.split()[7]
+            size += int(line.split()[8])
+            if code in code_dict:
+                code_dict[code] += 1
+            if (line_counter % 10 == 0):
+                print_pretty(size, code_dict)
+        print_pretty(size, code_dict)
+    except KeyboardInterrupt:
+        print_pretty(size, code_dict)
+        raise
